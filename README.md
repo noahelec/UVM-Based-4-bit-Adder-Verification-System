@@ -23,7 +23,7 @@ endmodule
 ### Interface Declaration
 The add_if interface declares the signals used to connect the testbench to the adder module. It includes two 4-bit inputs (a, b) and a 5-bit output (sum).
 
-**File**: `.sv`
+**File**: `add.sv`
 ```verilog
 module add (
   input [3:0] a, b,
