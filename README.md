@@ -52,7 +52,7 @@ Defines the data that will be passed to the adder for verification.
 class transaction extends uvm_sequence_item;
   rand bit [3:0] a;
   rand bit [3:0] b;
-  bit [4:0] y;
+  bit [4:0] sum;
 
   function new(input string path = "transaction");
     super.new(path);
@@ -60,7 +60,7 @@ class transaction extends uvm_sequence_item;
 `uvm_object_utils_begin(transaction)
   `uvm_field_int(a, UVM_DEFAULT)
   `uvm_field_int(b, UVM_DEFAULT)
-  `uvm_field_int(y, UVM_DEFAULT)
+  `uvm_field_int(sum, UVM_DEFAULT)
 `uvm_object_utils_end
 endclass
 ```
@@ -128,8 +128,8 @@ class monitor extends uvm_monitor;
       #10;
       t.a = aif.a;
       t.b = aif.b;
-      t.y = aif.y;
-      `uvm_info("MON", $sformatf("Monitor: a=%0d, b=%0d, y=%0d", t.a, t.b, t.y), UVM_NONE);
+      t.sum = aif.sum;
+      `uvm_info("MON", $sformatf("Monitor: a=%0d, b=%0d, sum=%0d", t.a, t.b, t.sum), UVM_NONE);
       send.write(t);
     end
   endtask
@@ -143,8 +143,8 @@ Compares the actual output of the adder with the expected output and reports pas
 
   virtual function void write(transaction t);
     tr = t;
-    `uvm_info("SCO", $sformatf("Scoreboard received: a=%0d, b=%0d, y=%0d", tr.a, tr.b, tr.y), UVM_NONE);
-    if (tr.y == tr.a + tr.b)
+    `uvm_info("SCO", $sformatf("Scoreboard received: a=%0d, b=%0d, sum=%0d", tr.a, tr.b, tr.sum), UVM_NONE);
+    if (tr.sum == tr.a + tr.b)
       `uvm_info("SCO", "Test Passed", UVM_NONE);
     else
       `uvm_info("SCO", "Test Failed", UVM_NONE);
@@ -178,7 +178,7 @@ endclass
 ```
 module add_tb();
   add_if aif();
-  add dut (.a(aif.a), .b(aif.b), .y(aif.sum));
+  add dut (.a(aif.a), .b(aif.b), .sum(aif.sum));
 
   initial begin
     $dumpfile("dump.vcd");
