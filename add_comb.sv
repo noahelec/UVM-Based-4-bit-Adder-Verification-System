@@ -1,5 +1,5 @@
 // Design Implementation
-module add (
+module add_comb (
     input [3:0] a, b,
     output [4:0] sum
   );
