@@ -215,7 +215,7 @@ module add_tb();
 
   add_if aif();
 
-  add dut(.a(aif.a), .b(aif.b), .sum(aif.sum));
+  add_comb dut(.a(aif.a), .b(aif.b), .sum(aif.sum));
 
   initial begin
     $dumpfile("dump.vcd");
